@@ -32,7 +32,7 @@ class render_class
     }
 
 
-    public function get_header($title){
+    public function get_header(){
         $send = "<head>\n";
         foreach($this->meta_lines as $line){
             $send .= "\t$line\n";
@@ -60,12 +60,46 @@ class render_class
     }
 
 
-    private function get_menu_data(){
-        foreach(glob('../*/add_menu.json') as $data) {
-            //do something with data
+    public function get_menu_data(){
+        $data = array();
+        foreach(glob('./*/add_menu.json') as $datalocation) {
+            //echo $datalocation."\n";
+            $data[] = json_decode(file_get_contents($datalocation));
         }
+        //clean the data
+
+        $clean = array();
+
+        if(!isset($clean[$data->menu_position])){
+            $postion =
+        }
+
+
+        return $data;
     }
 
+    public function create_html_menu($data){
+        //setting the scene:
+        $html = '<div class="ui container">'."\n";
+        $html .= "\t".'<div class="ui stackable container menu">'."\n";
+        $html .= "\t".'<div class="header item"><a href="index.php"><i class="home icon"></i></a></div>'."\n";
+
+
+        echo $html;
+
+    }
+
+
+    private function clean_menu_position($clean, $data){
+        $asking_position = $data->menu_position;
+
+        if(isset($clean[$asking_position])){
+            $data->menu_position +=1;
+            $this->clean_menu_position($clean, $data);
+        } else {
+            return $asking_position;
+        }
+    }
 
 
 

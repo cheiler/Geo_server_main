@@ -1,3 +1,5 @@
 /.htaccess
 /*.txt
 /robots.txt.dist
+/.idea
+
