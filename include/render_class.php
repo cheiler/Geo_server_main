@@ -71,6 +71,8 @@ class render_class
         $clean = array();
 
         foreach($data as $entry){
+            //if the slot is already taken assign a large random number...
+            //TODO: Improve slot generator...
             if(!isset($clean[$entry->menu_position])){
                 $position = $entry->menu_position;
             } else {
@@ -81,15 +83,41 @@ class render_class
             }
             $clean[$position] = $entry;
         }
-
+        ksort($clean);
         return $clean;
     }
 
-    public function create_html_menu($data){
+    public function create_html_menu($current = ""){
         //setting the scene:
         $html = '<div class="ui container">'."\n";
         $html .= "\t".'<div class="ui stackable container menu">'."\n";
         $html .= "\t".'<div class="header item"><a href="index.php"><i class="home icon"></i></a></div>'."\n";
+
+        //loop through data array...
+        $data = $this->get_menu_data();
+        foreach($data as $entry){
+
+            //check if Item has drop down...
+            if(isset($entry->menu) && is_array($entry->menu)){
+                //use dropdown logic
+
+                if(isset($entry->title_link)){
+                    //Create link in title
+                } else {
+                    //just create title
+                }
+                //loop through menu
+
+
+            } else {
+                //just create link
+            }
+
+
+
+
+        }
+
 
 
         echo $html;

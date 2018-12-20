@@ -36,7 +36,8 @@ $myJson->menu[2]->link = "../test1/index2.php";
 
 
 
-$render->create_html_menu("hello");
+//$render->create_html_menu("hello");
 
+print_r($render->get_menu_data());
 
 echo "\n\n";
