@@ -70,12 +70,19 @@ class render_class
 
         $clean = array();
 
-        if(!isset($clean[$data->menu_position])){
-            $postion =
+        foreach($data as $entry){
+            if(!isset($clean[$entry->menu_position])){
+                $position = $entry->menu_position;
+            } else {
+                if($position == 0){
+                    $position = 1;
+                }
+                $position = ($position+1)*rand(10,40);
+            }
+            $clean[$position] = $entry;
         }
 
-
-        return $data;
+        return $clean;
     }
 
     public function create_html_menu($data){
