@@ -14,6 +14,8 @@ class render_class
     private $title = "Geo Server";
     private $stylesheet_lines = array();
     private $javascript_lines = array();
+    private $footer_lines = array();
+    private $log = array();
 
 
 
@@ -24,11 +26,11 @@ class render_class
         $this->meta_lines[] = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
 
         $this->stylesheet_lines[] = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">';
-        $this->stylesheet_lines[] = '<link rel="stylesheet" type="text/css" href="../css/style.css">';
+        $this->stylesheet_lines[] = '<link rel="stylesheet" type="text/css" href="./css/style.css">';
 
         $this->javascript_lines[] = '<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>';
-        $this->javascript_lines[] = '<script type="text/javascript" src="../js/script.js"></script>';
-
+        $this->javascript_lines[] = '<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>';
+        $this->javascript_lines[] = '<script type="text/javascript" src="./js/script.js"></script>';
     }
 
 
@@ -41,17 +43,27 @@ class render_class
         foreach($this->stylesheet_lines as $line){
             $send .= "\t$line\n";
         }
+        foreach($this->javascript_lines as $line){
+            $send .= "\t$line\n";
+        }
+
+
+
         $send .= "</head>\n";
 
         return $send;
     }
 
 
-    public function add_header($line){
-        $this->header_lines[] = $line;
+    public function add_header_meta($line){
+        $this->meta_lines[] = $line;
     }
 
-    public function add_stylesheet($line){
+    public function add_header_js($line){
+        $this->javascript_lines[] = $line;
+    }
+
+    public function add_header_stylesheet($line){
         $this->stylesheet_lines[] = $line;
     }
 
@@ -59,8 +71,12 @@ class render_class
         $this->title = $title;
     }
 
+    public function add_footer_js($line){
+        $this->footer_lines[] = $line;
+    }
 
-    public function get_menu_data(){
+
+    private function get_menu_data(){
         $data = array();
         foreach(glob('./*/add_menu.json') as $datalocation) {
             //echo $datalocation."\n";
@@ -89,11 +105,12 @@ class render_class
         return $clean;
     }
 
-    public function create_html_menu($current = ""){
+    public function get_html_menu($current = ""){
         //setting the scene:
-        $html = '<div class="ui container">'."\n";
+        $html = "<body>\n";
+        $html .= '<div class="ui container">'."\n";
         $html .= "\t".'<div class="ui stackable container menu">'."\n";
-        $html .= "\t".'<div class="header item"><a href="../index.php"><i class="home icon"></i></a></div>'."\n";
+        $html .= "\t".'<div class="header item"><a href="./index.php"><i class="home icon"></i></a></div>'."\n";
 
         //loop through data array...
         $data = $this->get_menu_data();
@@ -139,6 +156,9 @@ class render_class
         //close complete menu
         $html .= '</div>'."\n";
 
+        //open the body for the display:
+        $html .= "<div class=\"ui container\">\n";
+
         return $html;
 
     }//END function create_html_menu
@@ -155,6 +175,43 @@ class render_class
 
     }
 
+    public function add_log($log_line){
+        $this->log[] = $log_line;
+    }
+
+    /**
+     * @return array
+     */
+    public function get_log(){
+        return $this->log;
+    }
+
+    public function get_footer($include_log = false){
+        $html = "<!-- footer -->\n";
+        $html .= "</div><br>\n";
+        foreach($this->footer_lines as $line){
+            $html .= "\t$line\n";
+        }
+        //Logs?
+        if($include_log){
+            $html .= "<!-- LOGGING DATA: \n\n";
+
+            foreach($this->log as $log_data){
+                if(is_string($log_data)){
+                    $html .= $log_data."\n";
+                } elseif(is_array($log_data) || is_object($log_data)){
+                    $html .= json_encode($log_data, JSON_PRETTY_PRINT);
+                    $html .= "\n";
+                }
+            }
+
+            $html .= "\n\n END LOGGING DATA-->\n\n";
+        }
+
+        $html .= "</body>\n\n</html>";
+
+        return $html;
+    }
 
 
 

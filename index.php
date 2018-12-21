@@ -9,8 +9,9 @@
 require_once("include/render_class.php");
 
 $render = new render_class();
-"<html>\n";
-echo $render->get_header("Testpage");
+
+$render->set_title("Index of Server");
+echo $render->get_header();
 
 
 
@@ -40,9 +41,20 @@ $myJson->menu[2]->link = "../test1/index2.php";
 
 //print_r($render->get_menu_data());
 echo "<body>\n";
-echo $render->create_html_menu();
+echo $render->get_html_menu();
+
+
+echo "<p>Hello</p>\n";
+
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
+echo "<p>Hello</p>\n";
 
 
 
-echo "</body>\n</html>";
-echo "\n\n";
+echo $render->get_footer();
