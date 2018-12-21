@@ -73,9 +73,11 @@ class render_class
         foreach($data as $entry){
             //if the slot is already taken assign a large random number...
             //TODO: Improve slot generator...
+
             if(!isset($clean[$entry->menu_position])){
                 $position = $entry->menu_position;
             } else {
+                $position = $entry->menu_position;
                 if($position == 0){
                     $position = 1;
                 }
@@ -91,7 +93,7 @@ class render_class
         //setting the scene:
         $html = '<div class="ui container">'."\n";
         $html .= "\t".'<div class="ui stackable container menu">'."\n";
-        $html .= "\t".'<div class="header item"><a href="index.php"><i class="home icon"></i></a></div>'."\n";
+        $html .= "\t".'<div class="header item"><a href="../index.php"><i class="home icon"></i></a></div>'."\n";
 
         //loop through data array...
         $data = $this->get_menu_data();
@@ -100,29 +102,46 @@ class render_class
             //check if Item has drop down...
             if(isset($entry->menu) && is_array($entry->menu)){
                 //use dropdown logic
-
+                $html .= "\t".'<div class="ui dropdown item">'."\n";
                 if(isset($entry->title_link)){
                     //Create link in title
-                } else {
-                    //just create title
-                }
-                //loop through menu
+                    $html .= "\t\t".'<a href="'.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
 
+                } else {
+                    $html .= "\t\t".$entry->title."\n";
+                }
+                $html .= "\t\t".'<i class="dropdown icon"></i>'."\n";
+                //loop through menu
+                $html .= "\t\t".'<div class="menu">'."\n";
+                foreach($entry->menu as $item){
+                    $html .= "\t\t\t".'<div class="item"><a href="'.$item->link.'">'.$item->text.'</a></div>'."\n";
+
+                }//END foreach entry->menu
+
+                //close menu DIV
+                $html .= "\t\t".'</div>'."\n";
+                //close dropdown DIV
+                $html .= "\t".'</div>'."\n";
 
             } else {
-                //just create link
+                //just create Top line
+                //check if link is present
+                if(isset($entry->title_link)){
+                    $html .= "\t".'<a href="'.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
+                } else {
+                    $html .= "\t".'<p>'.$entry->title.'</p>'."\n";
+                }
+
             }
 
+        }//END foreach $data
 
+        //close complete menu
+        $html .= '</div>'."\n";
 
+        return $html;
 
-        }
-
-
-
-        echo $html;
-
-    }
+    }//END function create_html_menu
 
 
     private function clean_menu_position($clean, $data){
@@ -131,9 +150,9 @@ class render_class
         if(isset($clean[$asking_position])){
             $data->menu_position +=1;
             $this->clean_menu_position($clean, $data);
-        } else {
-            return $asking_position;
         }
+        return $asking_position;
+
     }
 
 
