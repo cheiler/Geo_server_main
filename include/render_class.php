@@ -16,6 +16,8 @@ class render_class
     private $javascript_lines = array();
     private $footer_lines = array();
     private $log = array();
+    private $inRoot = false;
+    private $rootDir = "../";
 
 
 
@@ -31,6 +33,13 @@ class render_class
         $this->javascript_lines[] = '<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>';
         $this->javascript_lines[] = '<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>';
         $this->javascript_lines[] = '<script type="text/javascript" src="./js/script.js"></script>';
+
+        //Make sure Render is included at the right level
+        if(file_exists("./include/render_class.php")){
+            $this->inRoot = true;
+            $this->rootDir = "./";
+        }
+
     }
 
 
@@ -78,7 +87,7 @@ class render_class
 
     private function get_menu_data(){
         $data = array();
-        foreach(glob('./*/add_menu.json') as $datalocation) {
+        foreach(glob($this->rootDir.'*/add_menu.json') as $datalocation) {
             //echo $datalocation."\n";
             $data[] = json_decode(file_get_contents($datalocation));
         }
@@ -110,7 +119,7 @@ class render_class
         $html = "<body>\n";
         $html .= '<div class="ui container">'."\n";
         $html .= "\t".'<div class="ui stackable container menu">'."\n";
-        $html .= "\t".'<div class="header item"><a href="./index.php"><i class="home icon"></i></a></div>'."\n";
+        $html .= "\t".'<div class="header item"><a href="'.$this->rootDir.'index.php"><i class="home icon"></i></a></div>'."\n";
 
         //loop through data array...
         $data = $this->get_menu_data();
