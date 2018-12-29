@@ -1,1 +1,1 @@
-{"title":"Test 3","menu_position":0,"menu":[{"text":"Menu item 22","link":"..\/test1\/index2.php"},{"text":"Menu item 32","link":"..\/test1\/index2.php"},{"text":"Menu item 42","link":"..\/test1\/index2.php"}]}
+{"title":"Test 3","menu_position":0,"menu":[{"text":"Menu item 22","link":"test1\/index2.php"},{"text":"Menu item 32","link":"test1\/index2.php"},{"text":"Menu item 42","link":"test1\/index2.php"}]}

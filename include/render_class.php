@@ -39,7 +39,7 @@ class render_class
 
         $this->javascript_lines[] = '<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>';
         $this->javascript_lines[] = '<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>';
-        $this->javascript_lines[] = '<script type="text/javascript" src=".$this->rootDir.\'js/script.js"></script>';
+        $this->javascript_lines[] = '<script type="text/javascript" src="'.$this->rootDir.'js/script.js"></script>';
 
 
 
@@ -134,7 +134,7 @@ class render_class
                 $html .= "\t".'<div class="ui dropdown item">'."\n";
                 if(isset($entry->title_link)){
                     //Create link in title
-                    $html .= "\t\t".'<a href="'.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
+                    $html .= "\t\t".'<a href="'.$this->rootDir.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
 
                 } else {
                     $html .= "\t\t".$entry->title."\n";
@@ -143,7 +143,7 @@ class render_class
                 //loop through menu
                 $html .= "\t\t".'<div class="menu">'."\n";
                 foreach($entry->menu as $item){
-                    $html .= "\t\t\t".'<div class="item"><a href="'.$item->link.'">'.$item->text.'</a></div>'."\n";
+                    $html .= "\t\t\t".'<div class="item"><a href="'.$this->rootDir.$item->link.'">'.$item->text.'</a></div>'."\n";
 
                 }//END foreach entry->menu
 
@@ -156,7 +156,7 @@ class render_class
                 //just create Top line
                 //check if link is present
                 if(isset($entry->title_link)){
-                    $html .= "\t".'<a href="'.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
+                    $html .= "\t".'<a href="'.$this->rootDir.$entry->title_link.'" class="item" target="_blank">'.$entry->title.'</a>'."\n";
                 } else {
                     $html .= "\t".'<p>'.$entry->title.'</p>'."\n";
                 }
