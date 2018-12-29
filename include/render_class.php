@@ -23,22 +23,25 @@ class render_class
 
     public function __construct()
     {
-        $this->meta_lines[] = '<meta http-equiv="Content-Type" charset="utf-8"/>';
-        $this->meta_lines[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>';
-        $this->meta_lines[] = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
-
-        $this->stylesheet_lines[] = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">';
-        $this->stylesheet_lines[] = '<link rel="stylesheet" type="text/css" href="./css/style.css">';
-
-        $this->javascript_lines[] = '<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>';
-        $this->javascript_lines[] = '<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>';
-        $this->javascript_lines[] = '<script type="text/javascript" src="./js/script.js"></script>';
 
         //Make sure Render is included at the right level
         if(file_exists("./include/render_class.php")){
             $this->inRoot = true;
             $this->rootDir = "./";
         }
+
+        $this->meta_lines[] = '<meta http-equiv="Content-Type" charset="utf-8"/>';
+        $this->meta_lines[] = '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>';
+        $this->meta_lines[] = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
+
+        $this->stylesheet_lines[] = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">';
+        $this->stylesheet_lines[] = '<link rel="stylesheet" type="text/css" href="'.$this->rootDir.'css/style.css">';
+
+        $this->javascript_lines[] = '<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>';
+        $this->javascript_lines[] = '<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.js"></script>';
+        $this->javascript_lines[] = '<script type="text/javascript" src=".$this->rootDir.\'js/script.js"></script>';
+
+
 
     }
 
